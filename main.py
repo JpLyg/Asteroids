@@ -19,7 +19,7 @@ def main():
                  return
         screen.fill("black")
 
-        pc1.update(dt,PLAYER_TURN_SPEED)
+        pc1.update(dt)
 
 
         pc1.draw(screen)
