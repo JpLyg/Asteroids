@@ -24,14 +24,13 @@ def main():
                  return
         screen.fill("black")
 
-        #
-        updatable.update(dt)
-        #for process in updatable:
-           #process.update(dt)
-        
+
+        updatable.update(dt) 
         for process in drawable:
             process.draw(screen)
         
+        #the part above has been ultimiately perflexing. Why does the draw needs a loop and the update does not?
+        # Turns out the .update() just happens to be a special method with build in auto loot inside pygame.sprite
 
         pygame.display.flip()
 
