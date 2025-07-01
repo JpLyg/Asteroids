@@ -19,11 +19,12 @@ def main():
                  return
         screen.fill("black")
 
+        pc1.update(dt,PLAYER_TURN_SPEED)
+
+
         pc1.draw(screen)
 
         pygame.display.flip()
-
-
 
         clock.tick(30)
         dt = clock.tick(30)/1000
