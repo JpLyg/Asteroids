@@ -41,10 +41,16 @@ def main():
         for ast in asteroid_:
             if ast.collision(pc1):
                 print("game over")
-                return     
+                return
+            for shots_ in shots:
+                shots_.shot_collision(ast)     
             
+                
+
         keys = pygame.key.get_pressed()            
         if keys[pygame.K_SPACE]:pc1.shoot(screen,dt)
+
+
     
         for process in drawable:
             process.draw(screen)
@@ -52,8 +58,8 @@ def main():
 
         pygame.display.flip()
 
-        clock.tick(30)
-        dt = clock.tick(30)/1000
+        clock.tick(60)
+        dt = clock.tick(60)/1000
 
 
     exit()
