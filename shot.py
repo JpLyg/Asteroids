@@ -17,6 +17,12 @@ class Shot(CircleShape):
                 pygame.draw.circle(screen,"white",(self.position.x,self.position.y),self.radius)
     
     def shot_collision(self,target):
-        if self.position.distance_to(target.position) <= (self.radius + target.radius)*0.5:
-            target.kill()    
-            self.kill()
+        if self.position.distance_to(target.position) <= (self.radius + target.radius):
+            if target.radius >= ASTEROID_MIN_RADIUS:
+                 #work here
+                 
+                return True
+            
+            #target.kill()    
+            #self.kill()
+            return False

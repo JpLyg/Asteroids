@@ -3,6 +3,7 @@ from player import *
 from asteroid import *
 from asteroidfield import *
 import pygame
+import random
 
 def main():
     
@@ -43,7 +44,19 @@ def main():
                 print("game over")
                 return
             for shots_ in shots:
-                shots_.shot_collision(ast)     
+                if shots_.shot_collision(ast):
+                    ran = random.uniform(20,50)
+                    new_angle_1 = ast.velocity.rotate(ran)
+                    new_angle_2 = ast.velocity.rotate(-ran)
+                    new_rad = ast.radius - ASTEROID_MIN_RADIUS
+                    as1=Asteroid(ast.position.x,ast.position.y,new_rad)
+                    as1.velocity=new_angle_1
+                    as2=Asteroid(ast.position.x,ast.position.y,new_rad)
+                    as2.velocity=new_angle_2
+
+                    ast.kill()
+                    shots_.kill()
+
             
                 
 
@@ -60,7 +73,6 @@ def main():
 
         clock.tick(60)
         dt = clock.tick(60)/1000
-
 
     exit()
 if __name__ == "__main__":
