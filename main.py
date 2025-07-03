@@ -4,6 +4,9 @@ from asteroid import *
 from asteroidfield import *
 import pygame
 import random
+import gamestate
+
+gobal_score = 0
 
 def main():
     
@@ -11,6 +14,7 @@ def main():
     print("Screen width:",SCREEN_WIDTH)
     print("Screen height:",SCREEN_HEIGHT)
     dt = 0
+    score=0
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
@@ -27,7 +31,9 @@ def main():
     AsteroidField.containers = (updatable,)
     Shot.containers = (shots,drawable,updatable)
     pc1 = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,PLAYER_RADIUS)
+    pc1.health= 3
     asteroid_f = AsteroidField()
+    print (pc1.health)
     
 
     while True:
@@ -40,22 +46,16 @@ def main():
         updatable.update(dt) #whole update processes
 
         for ast in asteroid_:
-            if ast.collision(pc1):
-                print("game over")
+            if ast.collision(pc1) and pc1.health <=0:
+                print("game over, Total Score:",gamestate.Score)
                 return
+            
             for shots_ in shots:
-                if shots_.shot_collision(ast):
-                    ran = random.uniform(20,50)
-                    new_angle_1 = ast.velocity.rotate(ran)
-                    new_angle_2 = ast.velocity.rotate(-ran)
-                    new_rad = ast.radius - ASTEROID_MIN_RADIUS
-                    as1=Asteroid(ast.position.x,ast.position.y,new_rad)
-                    as1.velocity=new_angle_1
-                    as2=Asteroid(ast.position.x,ast.position.y,new_rad)
-                    as2.velocity=new_angle_2
+               shot_collision(ast,shots_)
 
-                    ast.kill()
-                    shots_.kill()
+            #for ast2 in asteroid_:
+             #   if ast != ast2:
+              #       asteroid_collision(ast,ast2)           
 
             
                 
@@ -63,8 +63,6 @@ def main():
         keys = pygame.key.get_pressed()            
         if keys[pygame.K_SPACE]:pc1.shoot(screen,dt)
 
-
-    
         for process in drawable:
             process.draw(screen)
     
@@ -75,6 +73,24 @@ def main():
         dt = clock.tick(60)/1000
 
     exit()
+
+
+def shot_collision(asteroid,shot):
+    if shot.shot_collision(asteroid):
+        # ddddddddddshot.kill()
+        asteroid.split()   
+        asteroid.kill()
+        
+
+def asteroid_collision(asteroid,asteroid2):
+    if asteroid.self_collision(asteroid2):
+
+        asteroid.split()
+        asteroid2.split()
+        asteroid.kill()
+        asteroid2.kill()
+    
+    
 if __name__ == "__main__":
     main()
     
